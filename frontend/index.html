@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendPulse Advanced | Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="pulse"></span>
+                <h1>TrendPulse</h1>
+            </div>
+            <nav id="sidebarNav">
+                <div class="nav-section">MAIN</div>
+                <a href="#" class="nav-item active" data-section="overview">Overview</a>
+                <a href="#" class="nav-item" data-section="analytics">Analytics</a>
+                <a href="#" class="nav-item" data-section="reports">User Reports</a>
+                <div class="nav-section">TOOLS</div>
+                <a href="#" class="nav-item" data-section="settings">Settings</a>
+                <a href="#" id="logoutBtn" class="nav-item" style="color: #ef4444; margin-top: auto;">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="top-bar">
+                <div class="search-container">
+                    <input type="text" id="postSearch" placeholder="Filter by hashtag or user...">
+                </div>
+                <div class="header-actions">
+                    <button id="themeToggle" class="theme-btn">Toggle Theme</button>
+                    <button id="exportBtn" class="export-btn">Export CSV</button>
+                    <div class="user-info">
+                        <span id="currentDate">March 11, 2026</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- OVERVIEW SECTION -->
+            <section id="overview" class="dashboard-section">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <span class="label">Total Posts</span>
+                        <h2 id="sum-posts">0</h2>
+                        <span class="status positive">↑ 2.4%</span>
+                    </div>
+                    <div class="summary-card">
+                        <span class="label">Total Likes</span>
+                        <h2 id="sum-likes">0</h2>
+                        <span class="status positive">↑ 12.1%</span>
+                    </div>
+                    <div class="summary-card">
+                        <span class="label">Total Comments</span>
+                        <h2 id="sum-comments">0</h2>
+                        <span class="status positive">↑ 4.5%</span>
+                    </div>
+                    <div class="summary-card">
+                        <span class="label">Total Shares</span>
+                        <h2 id="sum-shares">0</h2>
+                        <span class="status positive">↑ 8.9%</span>
+                    </div>
+                </div>
+
+                <div class="main-grid">
+                    <div class="glass-card chart-span-2">
+                        <div class="card-title">Hashtag Growth Over Time</div>
+                        <div class="chart-wrapper">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-title">Trend Prediction</div>
+                        <div class="prediction-content" id="predictionModule">
+                            <p>Analyzing recent engagement patterns...</p>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-title">Sentiment Analysis</div>
+                        <div class="chart-wrapper" style="height: 250px;">
+                            <canvas id="sentimentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ANALYTICS SECTION -->
+            <section id="analytics" class="dashboard-section hidden">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Filter By Date:</label>
+                        <input type="date" id="dateFilter">
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter By User:</label>
+                        <input type="text" id="userFilter" placeholder="@user">
+                    </div>
+                </div>
+                <div class="main-grid">
+                    <div class="glass-card chart-span-2">
+                        <div class="card-title">Top Trending Hashtags</div>
+                        <div class="chart-wrapper">
+                            <canvas id="trendingChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-title">Daily Activity</div>
+                        <div class="chart-wrapper">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-card chart-span-3">
+                        <div class="card-title">Detailed Analytics Feed</div>
+                        <div class="table-container">
+                            <table id="postsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Hashtag</th>
+                                        <th>Likes</th>
+                                        <th>Engagement</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="postsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REPORTS SECTION -->
+            <section id="reports" class="dashboard-section hidden">
+                <div class="main-grid">
+                    <div class="glass-card chart-span-2">
+                        <div class="card-title">Engagement Leaderboard</div>
+                        <div class="leaderboard-container">
+                            <table id="leaderboardTable">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Content</th>
+                                        <th>Tag</th>
+                                        <th>Engagement</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboardBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-title">Most Active Users</div>
+                        <div class="user-list" id="activeUsers">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS SECTION -->
+            <section id="settings" class="dashboard-section hidden">
+                <div class="glass-card">
+                    <div class="card-title">System Settings</div>
+                    <div class="settings-content">
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Configure your TrendPulse experience.
+                        </p>
+                        <div class="setting-item" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Data Update Frequency</label>
+                            <select
+                                style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); padding: 0.5rem; border-radius: 4px; width: 200px;">
+                                <option>Real-time</option>
+                                <option>Every 5 mins</option>
+                                <option>Every hour</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

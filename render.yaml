@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: trendpulse-analytics
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python -m textblob.download_corpora
+    startCommand: gunicorn --chdir backend --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PORT
+        value: 5000
