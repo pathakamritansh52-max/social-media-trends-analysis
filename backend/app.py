@@ -3,6 +3,16 @@ from analysis import analyze_trends
 import os
 import pandas as pd
 import io
+import nltk
+
+# Download NLTK data needed by TextBlob
+try:
+    nltk.download('punkt', quiet=True)
+    nltk.download('averaged_perceptron_tagger', quiet=True)
+    nltk.download('punkt_tab', quiet=True)
+    nltk.download('averaged_perceptron_tagger_eng', quiet=True)
+except Exception:
+    pass
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 app.secret_key = os.environ.get('SECRET_KEY', 'super-secret-trendpulse-key')
