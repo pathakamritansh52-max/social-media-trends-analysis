@@ -2,12 +2,10 @@ services:
   - type: web
     name: trendpulse-analytics
     runtime: python
-    buildCommand: pip install -r requirements.txt && python -m textblob.download_corpora
+    buildCommand: pip install -r requirements.txt && python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger'); nltk.download('punkt_tab'); nltk.download('averaged_perceptron_tagger_eng')"
     startCommand: gunicorn --chdir backend --bind 0.0.0.0:$PORT app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
       - key: SECRET_KEY
         generateValue: true
-      - key: PORT
-        value: 5000
